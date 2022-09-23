@@ -21,7 +21,7 @@ ordersRouter.get("/me", getAllOrdersByUser); // get all orders of a user getAllO
 
 ordersRouter.post("/", createOrderValidators, createOrderForUser); // create a new order for user createOrderForUser
 
-ordersRouter.patch("/:id"), orderExist, updateOrder; // update order with status COMPLETED updateOrder
+ordersRouter.patch("/:id", orderExist, updateOrder); // update order with status COMPLETED updateOrder
 
 ordersRouter.delete("/:id", orderExist, deleteOrder); // update order with status CANCELLED
 

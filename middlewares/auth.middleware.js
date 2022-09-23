@@ -20,10 +20,7 @@ const protectedSection = catchAsync(async (req, res, next) => {
   }
 
   if (!token) {
-    return res.status(403).json({
-      status: "error",
-      message: "Token was invalid",
-    });
+    return next(new AppError("Token was invalid", 403));
   }
 
   //Verify the token here
@@ -35,11 +32,12 @@ const protectedSection = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ where: decoded.id, status: "active" });
 
   if (!user) {
-    return res.status(403).json({
-      status: "error",
-      message:
-        "The owner of the session is no longer active or token invalidad",
-    });
+    return next(
+      new AppError(
+        "The owner of the ssion is not longer active or token invalide",
+        404
+      )
+    );
   }
 
   // Grant Access
@@ -54,10 +52,7 @@ const protectUsersAccount = (req, res, next) => {
 
   // If the users (ids) don't match, send an error, otherwise continue
   if (sessionUser.id !== user.id) {
-    return res.status(403).json({
-      status: "error",
-      message: "You not are owner on this section",
-    });
+    return next(new AppError("You not are owner on this section", 403));
   }
 
   // If the ids match, grant access
@@ -68,10 +63,7 @@ const protectAdmin = (req, res, next) => {
   const { sessionUser } = req;
 
   if (sessionUser.role !== "admin") {
-    return res.status(403).json({
-      status: "error",
-      message: "You are not authorizated to do this",
-    });
+    return next(new AppError("Only admin can do this", 403));
   }
   next();
 };
@@ -80,10 +72,7 @@ const protectReviewsOwner = (req, res, next) => {
   const { sessionUser, review } = req;
 
   if (sessionUser.id !== review.userId) {
-    return res.status(403).json({
-      status: "error",
-      message: "You not are owner in this review",
-    });
+    return next(new AppError("You not are owner in this review", 403));
   }
 
   next();

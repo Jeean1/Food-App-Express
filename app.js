@@ -1,5 +1,6 @@
 //import express
 const express = require("express");
+const { globalErrorHandler } = require("./controllers/globalError");
 const { mealsRouter } = require("./routes/meal.router");
 const { ordersRouter } = require("./routes/order.router");
 const { restaurantRouter } = require("./routes/restaurant.router");
@@ -17,13 +18,7 @@ app.use("/api/v1/orders", ordersRouter);
 
 // GLOBAL ERROR HERE
 
-app.use((error, req, res, next) => {
-  res.status(500).json({
-    status: "error",
-    message: error.message,
-    error,
-  });
-});
+app.use(globalErrorHandler);
 
 //if routes no exist, default error here
 

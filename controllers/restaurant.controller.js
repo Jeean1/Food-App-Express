@@ -1,5 +1,6 @@
 const { Restaurant } = require("../models/restaurant.model");
 const { Review } = require("../models/review.model");
+const { AppError } = require("../utils/appError.util");
 const { catchAsync } = require("../utils/catchAsync.utils");
 
 const getAllRestaurant = catchAsync(async (req, res) => {
@@ -87,10 +88,7 @@ const createReviewRestaurant = catchAsync(async (req, res, next) => {
   const { comment, rating } = req.body;
 
   if (!restaurantId) {
-    return res.status(404).json({
-      status: "error",
-      message: "Restaurant not found",
-    });
+    return next(new AppError("Restaurant not found", 404));
   }
 
   const review = await Review.create({
@@ -109,18 +107,8 @@ const createReviewRestaurant = catchAsync(async (req, res, next) => {
 });
 
 const updateReviewRestaurant = catchAsync(async (req, res, next) => {
-  const { id } = req.params;
-
   const { comment, rating } = req.body;
-
-  const review = await Review.findOne({ where: { id } });
-
-  if (!review) {
-    return res.status(200).json({
-      status: "error",
-      message: "Review not found",
-    });
-  }
+  const { review } = req;
 
   await review.update({ comment, rating });
 

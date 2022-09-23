@@ -4,13 +4,10 @@ const { catchAsync } = require("../utils/catchAsync.utils");
 const orderExist = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
-  const order = await Order.findOne({ where: { id } });
+  const order = await Order.findOne({ where: { id, status: "active" } });
 
   if (!order) {
-    return res.status(404).json({
-      status: "error",
-      message: "Order not found",
-    });
+    return next(new AppError("Order not found", 404));
   }
 
   req.order = order;

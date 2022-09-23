@@ -7,10 +7,7 @@ const restauranIdExist = async (req, res, next) => {
     const restaurant = await Restaurant.findOne({ where: { id } });
 
     if (!restaurant) {
-      return res.status(404).json({
-        status: "error",
-        message: "Restaurant not found",
-      });
+      return next(new AppError("Restaurant not found", 404));
     }
 
     req.restaurant = restaurant;

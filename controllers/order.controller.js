@@ -1,11 +1,11 @@
 const { Meal } = require("../models/meal.model");
 const { Order } = require("../models/order.model");
-const { User } = require("../models/user.model");
+const { Restaurant } = require("../models/restaurant.model");
 const { catchAsync } = require("../utils/catchAsync.utils");
 
 const getAllOrdersByUser = catchAsync(async (req, res, next) => {
   const order = await Order.findAll({
-    include: { model: User, attributes: { exclude: ["password"] } },
+    include: { model: Meal, include: { model: Restaurant } },
   });
 
   res.status(200).json({
@@ -22,6 +22,10 @@ const createOrderForUser = catchAsync(async (req, res, next) => {
   //get meal info here
   const meal = await Meal.findOne({ where: { id: mealId } });
   //to multiplicate quanity with the original price to totalPrice
+
+  if (!meal) {
+    return next(new AppError("Meal not found", 404));
+  }
 
   const totalPrice = meal.price * quantity;
 

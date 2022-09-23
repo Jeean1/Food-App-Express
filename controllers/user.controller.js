@@ -37,15 +37,10 @@ const getAllOrdersByUser = catchAsync(async (req, res) => {
 });
 
 const getOrderByUserId = catchAsync(async (req, res, next) => {
-  const { id } = req.params;
-
-  const order = await Order.findOne({ where: { id } });
+  const { order } = req;
 
   if (!order) {
-    return res.status(404).json({
-      status: "error",
-      message: "Order id not found",
-    });
+    return next(new AppError("Order id not found", 404));
   }
 
   res.status(200).json({
@@ -73,7 +68,7 @@ const createUser = catchAsync(async (req, res) => {
 
   newUser.password = undefined;
 
-  return res.status(200).json({
+  res.status(201).json({
     status: "success",
     data: {
       newUser,
@@ -87,10 +82,7 @@ const createSessionUser = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ where: { email, status: "active" } });
 
   if (!user || !(await bcrypt.compare(password, user.password))) {
-    return res.status(400).json({
-      stauts: "error",
-      message: "User not found or Wrong Credentials",
-    });
+    return next(new AppError("User not found or Wrong Credentials", 404));
   }
 
   // Remove password from response

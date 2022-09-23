@@ -7,10 +7,7 @@ const reviewIdExist = async (req, res, next) => {
     const review = await Review.findOne({ where: { id } });
 
     if (!review) {
-      return res.status(404).json({
-        status: "error",
-        message: "Review not found",
-      });
+      return next(new AppError("Review not found", 404));
     }
 
     req.review = review;

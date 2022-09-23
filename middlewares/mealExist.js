@@ -7,10 +7,7 @@ const mealExist = catchAsync(async (req, res, next) => {
   const meal = await Meal.findOne({ where: { id } });
 
   if (!meal) {
-    return res.status(404).json({
-      status: "error",
-      message: "meal not found",
-    });
+    return next(new AppError("Meal not found", 404));
   }
 
   req.meal = meal;

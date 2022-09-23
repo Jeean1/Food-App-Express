@@ -7,10 +7,7 @@ const userOrderIdExist = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ where: { id } });
 
   if (!user) {
-    return res.status(404).json({
-      status: "error",
-      message: "User not found",
-    });
+    return next(new AppError("User not found", 404));
   }
 
   req.user = user;
