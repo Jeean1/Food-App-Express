@@ -1,6 +1,7 @@
 const { Meal } = require("../models/meal.model");
 const { Order } = require("../models/order.model");
 const { Restaurant } = require("../models/restaurant.model");
+const { AppError } = require("../utils/appError.util");
 const { catchAsync } = require("../utils/catchAsync.utils");
 
 const getAllOrdersByUser = catchAsync(async (req, res, next) => {

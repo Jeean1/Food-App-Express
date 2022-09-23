@@ -14,6 +14,7 @@ const { userOrderIdExist } = require("../middlewares/userOrderIdExist");
 const {
   protectedSection,
   protectUsersAccount,
+  protectAdmin,
 } = require("../middlewares/auth.middleware");
 const { orderExist } = require("../middlewares/orderExist");
 // express router to create endpoints
@@ -28,7 +29,7 @@ userRouter.post("/login", createSessionUser); // create a sesion for a exist use
 // Protecting below endpoints
 userRouter.use(protectedSection);
 
-userRouter.get("/", getAllUsers); // get all orders from this user getAllOrdersByUser
+userRouter.get("/", protectAdmin, getAllUsers); // get all orders from this user getAllOrdersByUser
 
 userRouter.get("/orders", getAllOrdersByUser); // get all orders from this user getAllOrdersByUser
 

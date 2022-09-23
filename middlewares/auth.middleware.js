@@ -2,6 +2,7 @@ const { catchAsync } = require("../utils/catchAsync.utils");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const { User } = require("../models/user.model");
+const { AppError } = require("../utils/appError.util");
 
 dotenv.config({ path: "./config.env" });
 

@@ -31,8 +31,11 @@ const dbUniqueConstraintError = () => {
   return new AppError("The entered email has already been taken", 400);
 };
 
+const protectAdminInProd = () => {
+  return new AppError("Only admin can do this", 403);
+};
+
 const globalErrorHandler = (error, req, res, next) => {
-  console.log(process.env.NODE_ENV);
   error.statusCode = error.statusCode || 500;
   error.status = error.status || "fail"; //default values for sequelize
 
@@ -47,7 +50,9 @@ const globalErrorHandler = (error, req, res, next) => {
     else if (error.name === "TokenExpiredError") err = tokenExpiredError();
     else if (error.name === "SequelizeUniqueConstraintError")
       err = dbUniqueConstraintError();
-    sendErrorProd(err, req, res);
+    else if (error.message === "Only admin can do this")
+      err = protectAdminInProd();
+    sendErrorProd(error, req, res);
   }
 };
 

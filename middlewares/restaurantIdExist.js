@@ -1,4 +1,5 @@
 const { Restaurant } = require("../models/restaurant.model");
+const { AppError } = require("../utils/appError.util");
 
 const restauranIdExist = async (req, res, next) => {
   try {

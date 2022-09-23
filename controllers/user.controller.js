@@ -6,11 +6,14 @@ const { User } = require("../models/user.model");
 const { catchAsync } = require("../utils/catchAsync.utils");
 const { Restaurant } = require("../models/restaurant.model");
 const { Meal } = require("../models/meal.model");
+const { AppError } = require("../utils/appError.util");
 
 dotenv.config({ path: "./config.env" });
 
 const getAllUsers = catchAsync(async (req, res) => {
-  const users = await User.findAll();
+  const users = await User.findAll({
+    attributes: { exclude: ["password"] },
+  });
 
   res.status(200).json({
     status: "Success",
@@ -52,18 +55,18 @@ const getOrderByUserId = catchAsync(async (req, res, next) => {
 });
 
 const createUser = catchAsync(async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, role } = req.body;
 
   // encrypt password for security
 
   const salt = await bcrypt.genSalt(12);
   const hashedPassword = await bcrypt.hash(password, salt);
-  console.log(hashedPassword);
 
   const newUser = await User.create({
     username,
     email,
     password: hashedPassword,
+    role,
   });
 
   newUser.password = undefined;

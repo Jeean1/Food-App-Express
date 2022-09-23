@@ -24,7 +24,12 @@ mealsRouter.get("/:id", mealExist, getMealById); // get a meal with ID with stat
 // Protecting below endpoints
 mealsRouter.use(protectedSection);
 
-mealsRouter.post("/:id", createMealValidators, createMealOnRestaurant); // create a new meal in a restaurant. :id its the id of restaurant createMealOnRestaurant
+mealsRouter.post(
+  "/:id",
+  protectAdmin,
+  createMealValidators,
+  createMealOnRestaurant
+); // create a new meal in a restaurant. :id its the id of restaurant createMealOnRestaurant
 
 mealsRouter.patch("/:id", protectAdmin, updateMealInfo); // only admin can update here updateMealInfo
 
