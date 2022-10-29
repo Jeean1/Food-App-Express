@@ -1,10 +1,12 @@
 //import express
 const express = require("express");
+const swaggerJSDoc = require("swagger-jsdoc");
 const { globalErrorHandler } = require("./controllers/globalError");
 const { mealsRouter } = require("./routes/meal.router");
 const { ordersRouter } = require("./routes/order.router");
 const { restaurantRouter } = require("./routes/restaurant.router");
 const { userRouter } = require("./routes/user.router");
+const { swaggerUI, swaggerSpec } = require("./swaggerConfig");
 // ejecute express in a var called app
 const app = express();
 // configure to work archives json
@@ -15,6 +17,11 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/restaurants", restaurantRouter);
 app.use("/api/v1/meals", mealsRouter);
 app.use("/api/v1/orders", ordersRouter);
+app.use(
+  "/api/v1/documentation",
+  swaggerUI.serve,
+  swaggerUI.setup(swaggerJSDoc(swaggerSpec))
+);
 
 // GLOBAL ERROR HERE
 

@@ -24,7 +24,10 @@ const getAllUsers = catchAsync(async (req, res) => {
 });
 
 const getAllOrdersByUser = catchAsync(async (req, res) => {
+  const { sessionUser } = req;
+  console.log(sessionUser.id);
   const order = await Order.findAll({
+    where: { userId: sessionUser.id },
     include: [
       { model: User, attributes: { exclude: ["password"] } },
       { model: Meal, include: { model: Restaurant } },
@@ -121,7 +124,7 @@ const updateUserInfo = catchAsync(async (req, res) => {
 const deleteUser = catchAsync(async (req, res) => {
   const { user } = req;
 
-  await user.Update({ status: "desactivated" });
+  await user.update({ status: "desactivated" });
 
   res.status(200).json({
     status: "success",

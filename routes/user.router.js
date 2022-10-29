@@ -15,6 +15,7 @@ const {
   protectedSection,
   protectUsersAccount,
   protectAdmin,
+  protectOrdersOwners,
 } = require("../middlewares/auth.middleware");
 const { orderExist } = require("../middlewares/orderExist");
 // express router to create endpoints
@@ -29,11 +30,16 @@ userRouter.post("/login", createSessionUser); // create a sesion for a exist use
 // Protecting below endpoints
 userRouter.use(protectedSection);
 
-userRouter.get("/", protectAdmin, getAllUsers); // get all orders from this user getAllOrdersByUser
+userRouter.get("/", protectAdmin, getAllUsers); // get All Users in database.
 
-userRouter.get("/orders", getAllOrdersByUser); // get all orders from this user getAllOrdersByUser
+userRouter.get("/orders", getAllOrdersByUser); // get all orders created by this user
 
-userRouter.get("/orders/:id", orderExist, getOrderByUserId); // search by order id getOrderByUserId
+userRouter.get(
+  "/orders/:id",
+  orderExist,
+  protectOrdersOwners,
+  getOrderByUserId
+); // search by order id getOrderByUserId
 
 userRouter.patch("/:id", userOrderIdExist, protectUsersAccount, updateUserInfo); // update info user (name, email) updateUserInfo
 

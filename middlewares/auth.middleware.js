@@ -79,9 +79,20 @@ const protectReviewsOwner = (req, res, next) => {
   next();
 };
 
+const protectOrdersOwners = (req, res, next) => {
+  const { sessionUser, order } = req;
+
+  if (order.userId !== sessionUser.id) {
+    return next(new AppError("You not are owner of this Order", 403));
+  }
+
+  next();
+};
+
 module.exports = {
   protectedSection,
   protectUsersAccount,
   protectAdmin,
   protectReviewsOwner,
+  protectOrdersOwners,
 };
