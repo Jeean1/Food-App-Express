@@ -24,8 +24,6 @@ const {
 // express router to create endpoints
 const restaurantRouter = express.Router();
 
-// console.log(getAllRestaurant);
-
 //Define endpoints here
 
 restaurantRouter.get("/", getAllRestaurant); // get all restaurant

@@ -10,9 +10,13 @@ const getAllRestaurant = catchAsync(async (req, res) => {
       model: Review,
       where: { status: "active" },
       attributes: { exclude: ["restaurantId"] },
+      required: false
     },
   });
 
+  // const restaurant = await Restaurant.findAll()
+
+  console.log(restaurant);
   res.status(200).json({
     status: "success",
     data: {

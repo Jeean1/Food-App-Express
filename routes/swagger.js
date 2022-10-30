@@ -220,3 +220,20 @@
  *
  *
  */
+
+/**
+ *
+ * @swagger
+ * /api/v1/restaurants/:
+ *  get:
+ *    security:
+ *      - bearerAuth: []
+ *    summary: Get all orders created from this user.
+ *    tags: [Restaurant functions with Auth]
+ *
+ *    responses:
+ *      200:
+ *        description: Response is a list of orders what made user in restaurant, with his restaurant and meal info.
+ *
+ *
+ */

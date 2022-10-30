@@ -25,7 +25,6 @@ const getAllUsers = catchAsync(async (req, res) => {
 
 const getAllOrdersByUser = catchAsync(async (req, res) => {
   const { sessionUser } = req;
-  console.log(sessionUser.id);
   const order = await Order.findAll({
     where: { userId: sessionUser.id },
     include: [
