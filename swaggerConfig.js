@@ -12,6 +12,9 @@ const swaggerSpec = {
     },
     servers: [
       {
+        url: "https://food-app-express-production.up.railway.app/",
+      },
+      {
         url: "http://localhost:4000",
       },
     ],
