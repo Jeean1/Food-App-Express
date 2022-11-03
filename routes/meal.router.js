@@ -31,7 +31,7 @@ mealsRouter.post(
   createMealOnRestaurant
 ); // create a new meal in a restaurant. :id its the id of restaurant createMealOnRestaurant
 
-mealsRouter.patch("/:id", protectAdmin, updateMealInfo); // only admin can update here updateMealInfo
+mealsRouter.patch("/:id", mealExist, protectAdmin, updateMealInfo); // only admin can update here updateMealInfo
 
 mealsRouter.delete("/:id", mealExist, protectAdmin, deleteMeal); // only admin can desactivated a meal
 

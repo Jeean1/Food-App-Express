@@ -5,7 +5,10 @@ const { AppError } = require("../utils/appError.util");
 const { catchAsync } = require("../utils/catchAsync.utils");
 
 const getAllOrdersByUser = catchAsync(async (req, res, next) => {
+  const { sessionUser } = req;
+
   const order = await Order.findAll({
+    where: { userId: sessionUser.id },
     include: { model: Meal, include: { model: Restaurant } },
   });
 
@@ -50,7 +53,7 @@ const updateOrder = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
-    message: "Order its completed",
+    message: "Order completed",
   });
 });
 
@@ -61,7 +64,7 @@ const deleteOrder = catchAsync(async (req, res, nex) => {
 
   res.status(200).json({
     status: "success",
-    message: "Order its cancelled",
+    message: "Order cancelled",
   });
 });
 

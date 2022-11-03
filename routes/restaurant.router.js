@@ -72,6 +72,6 @@ restaurantRouter.delete(
   reviewIdExist,
   protectReviewsOwner,
   deleteReview
-); // only auto can desactivated a review
+); // only autor can desactivated a review
 
 module.exports = { restaurantRouter };

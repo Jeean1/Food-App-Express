@@ -34,6 +34,7 @@ const getRestaurantById = catchAsync(async (req, res, nex) => {
       model: Review,
       where: { status: "active" },
       attributes: { exclude: ["restaurantId"] },
+      required: false
     },
   });
 
@@ -80,7 +81,7 @@ const deleteRestaurant = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
-    message: "Restaurant deleted",
+    message: "Restaurant has been desactivated",
   });
 });
 
@@ -131,7 +132,7 @@ const deleteReview = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
-    message: "review deleted",
+    message: "review has been desactivated",
   });
 });
 
